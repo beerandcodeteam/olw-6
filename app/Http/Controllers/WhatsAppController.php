@@ -14,7 +14,7 @@ class WhatsAppController extends Controller
     {
     }
 
-    public function new_message(Request $request)
+    public function newMessage(Request $request)
     {
         $phone = "+" . $request->post('WaId');
         $user = User::where('phone', $phone)->first();
@@ -27,6 +27,6 @@ class WhatsAppController extends Controller
             $this->stripeService->payment($user);
         }
 
-        
+
     }
 }
