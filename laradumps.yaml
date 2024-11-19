@@ -1,0 +1,43 @@
+app:
+    primary_host: 192.168.96.1
+    secondary_host: host.docker.internal
+    port: 9191
+    workdir: /var/www/html/
+    project_path: /home/lucas/projects/beer-and-code/olw-6/
+    wsl_config: wsl+Ubuntu/
+config:
+    sleep: 0
+    macos_auto_launch: true
+observers:
+    auto_invoke_app: false
+    enabled_in_testing: false
+    dump: false
+    original_dump: true
+    queries: false
+    slow_queries: false
+    mail: false
+    logs: true
+    http: false
+    jobs: false
+    commands: false
+    scheduled_commands: false
+    gate: false
+    cache: false
+xdebug:
+    client_host: 0.0.0.0
+    client_port: 9003
+logs:
+    info: false
+    warning: false
+    emergency: false
+    alert: false
+    debug: false
+    error: true
+    critical: true
+    notice: true
+    vendor: false
+    deprecated_message: false
+slow_queries:
+    threshold_in_ms: 500
+queries:
+    only_duplicated: false
