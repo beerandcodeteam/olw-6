@@ -25,7 +25,7 @@ class WhatsAppController extends Controller
         }
 
         if (!$user->subscribed()) {
-            $this->stripeService->payment($user);
+            return $this->stripeService->payment($user);
         }
 
         $user->last_whatsapp_at = now();
