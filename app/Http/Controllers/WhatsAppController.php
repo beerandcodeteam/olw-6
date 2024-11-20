@@ -4,13 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Notifications\NewUserNotification;
+use App\Services\ConversationalService;
 use App\Services\StripeService;
 use App\Services\UserServices;
 use Illuminate\Http\Request;
 
 class WhatsAppController extends Controller
 {
-    public function __construct(protected UserServices $userServices, protected StripeService $stripeService)
+    public function __construct(protected UserServices $userServices, protected StripeService $stripeService, protected ConversationalService $conversationalService)
     {
     }
 
@@ -27,6 +28,10 @@ class WhatsAppController extends Controller
             $this->stripeService->payment($user);
         }
 
+        $user->last_whatsapp_at = now();
+        $user->save();
 
+        $this->conversationalService->setUser($user);
+        $this->conversationalService->handleIncomingMessage($request->all());
     }
 }

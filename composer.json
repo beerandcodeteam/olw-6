@@ -10,6 +10,7 @@
         "laravel/framework": "^11.9",
         "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.9",
+        "openai-php/client": "^0.10.3",
         "twilio/sdk": "^8.3"
     },
     "require-dev": {
