@@ -6,12 +6,32 @@ use App\Models\User;
 use App\Notifications\GenericNotification;
 use App\Notifications\MenuNotification;
 use App\Notifications\ScheduleListNotification;
+use OpenAI\Responses\Chat\CreateResponse;
+use OpenAI\Testing\ClientFake;
 
 class ConversationalService
 {
 
     protected User $user;
     protected $client;
+
+    public function __construct()
+    {
+        if (config('app.env') === 'testing') {
+            $this->client = new ClientFake([
+                CreateResponse::fake([
+                    'choices' => [
+                        [
+                            'text' => 'awesome!',
+                        ],
+                    ],
+                ]),
+            ]);
+        }else {
+            $this->client = \OpenAI::client(config('openai.auth_token'));
+        }
+    }
+
     protected array $commands = [
         '!menu' => 'showMenu',
         '!agenda' => 'showSchedule',
@@ -126,9 +146,7 @@ class ConversationalService
 
     public function talkToGpt($messages, $clearMemory = false)
     {
-        $client = \OpenAI::client(config('openai.auth_token'));
-
-        $result = $client->chat()->create([
+        $result = $this->client->chat()->create([
             'model' => 'gpt-4o',
             'messages' => $messages,
             'functions' => [
